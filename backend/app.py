@@ -1,7 +1,10 @@
 # app.py
 from flask import Flask, request, jsonify
 
+from flask_cors import CORS  # 导入 CORS
+
 app = Flask(__name__)
+CORS(app)  # 启用 CORS
 
 
 def calculate_loan_interest(principal, annual_rate, years, early_payments):
@@ -33,6 +36,8 @@ def calculate_loan_interest(principal, annual_rate, years, early_payments):
 
 @app.route('/calculate', methods=['POST'])
 def calculate():
+    print("Received request")  # 使用 print 语句进行调试
+
     data = request.json
     principal = data['principal']
     rate = data['rate']

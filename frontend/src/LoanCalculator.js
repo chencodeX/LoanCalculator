@@ -1,11 +1,12 @@
 // LoanCalculator.js
 import React, { useState } from 'react';
+import './LoanCalculator.css';
 
 const LoanCalculator = () => {
   const [principal, setPrincipal] = useState(1000000);
   const [rate, setRate] = useState(3.15);
   const [years, setYears] = useState(25);
-  const [earlyPayments, setEarlyPayments] = useState([[1, 10000]]); // 默认每月提前还款1万
+  const [earlyPayments, setEarlyPayments] = useState([[1, 10000]]);
   const [result, setResult] = useState(null);
 
   const addEarlyPayment = () => {
@@ -25,7 +26,8 @@ const LoanCalculator = () => {
   };
 
   return (
-    <div>
+    <div className="App">
+      <h1>贷款还款计算器</h1>
       <input
         type="number"
         value={principal}
@@ -46,7 +48,7 @@ const LoanCalculator = () => {
       />
 
       {earlyPayments.map((payment, index) => (
-        <div key={index}>
+        <div key={index} className="add-payment-container">
           <input
             type="number"
             value={payment[0]} // 提前还款的时间间隔
@@ -74,7 +76,7 @@ const LoanCalculator = () => {
       <button onClick={calculateInterest}>计算</button>
 
       {result && (
-        <div>
+        <div className="result">
           <h2>计算结果</h2>
           <p>总利息: {result.total_interest.toFixed(2)}元</p>
         </div>
