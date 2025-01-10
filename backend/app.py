@@ -39,15 +39,20 @@ def calculate():
     print("Received request")  # 使用 print 语句进行调试
 
     data = request.json
-    principal = data['principal']
-    rate = data['rate']
-    years = data['years']
+    # 将接收到的字段转换为适当的类型
+    principal = float(data['principal'])
+    rate = float(data['rate'])
+    years = int(data['years'])
 
-    early_payments = [
-        (1, 10000),  # 每月提前还款1万
-        (6, 60000),  # 每半年提前还款6万
-        (12, 120000)  # 每年提前还款12万
-    ]
+    # 如果提前还款计划也是传过来的，解析它
+    early_payments = []
+
+    if 'earlyPayments' in data:
+        early_payments_raw = data['earlyPayments']
+        for payment in early_payments_raw:
+            interval = int(payment[0])  # 间隔月份
+            amount = float(payment[1])  # 每次提前还款金额
+            early_payments.append((interval, amount))
 
     total_interest, _ = calculate_loan_interest(principal, rate, years, early_payments)
 
